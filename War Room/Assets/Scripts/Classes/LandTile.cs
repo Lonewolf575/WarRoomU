@@ -18,4 +18,7 @@ public class LandTile : Tile
         int stressWorth;
         int factoryCount;
     }
+    public NationSO defaultOwner;
+    public NationSO currentOwner;
+    public GameObject flag;
 }

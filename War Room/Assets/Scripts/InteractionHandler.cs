@@ -7,12 +7,14 @@ public class InteractionHandler : MonoBehaviour
     // Update is called once per frame
     List<Tile> selectedTiles;
     Tile selectedTile;
+    [SerializeField]
+    Camera cam;
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 100))
