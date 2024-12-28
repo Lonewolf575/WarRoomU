@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : NetworkBehaviour
 {
     [SerializeField]
     private Button startServerButton;
@@ -25,7 +25,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject nationHandler;
 
-    int randNum;
+    [SerializeField]
+    private GameObject clientServerSelectionPage;
+
+    [SerializeField]
+    private GameObject nationSelectionPage;
+
     bool serverStarted;
 
     private void Awake()
@@ -38,14 +43,14 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        randNum = Random.Range(0, 10);
-
         startHostButton.onClick.AddListener(() =>
         {
             if(NetworkManager.Singleton.StartHost())
             {
                 //nationHandler.SetActive(true);
                 Debug.Log("Host started");
+                clientServerSelectionPage.SetActive(false);
+                nationSelectionPage.SetActive(true);
             }
             else
             {
@@ -59,6 +64,8 @@ public class UIManager : MonoBehaviour
             {
                 //nationHandler.SetActive(true);
                 Debug.Log("Server started");
+                clientServerSelectionPage.SetActive(false);
+                nationSelectionPage.SetActive(true);
             }
             else
             {
@@ -71,6 +78,8 @@ public class UIManager : MonoBehaviour
             if (NetworkManager.Singleton.StartClient())
             {
                 Debug.Log("Client started");
+                clientServerSelectionPage.SetActive(false);
+                nationSelectionPage.SetActive(true);
             }
             else
             {
@@ -82,6 +91,7 @@ public class UIManager : MonoBehaviour
         {
             if (serverStarted)
             {
+                enableCameraRpc();
                 nationHandler.SetActive(true);
             }
         });
@@ -89,11 +99,20 @@ public class UIManager : MonoBehaviour
         NetworkManager.Singleton.OnServerStarted += () =>
         {
             serverStarted = true;
+            startGameButton.interactable = true;
         };
     }
 
     void Update()
     {
-        playerInGameCountText.text = $"Num of Players: {PlayerHandler.Instance.PlayersInGame}. Random number: {randNum}";
+        playerInGameCountText.text = $"Num of Players: {PlayerHandler.Instance.PlayersInGame}.";
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void enableCameraRpc()
+    {
+        Debug.Log("GameStart");
+        nationSelectionPage.SetActive(false);
+        playerInfo.instance.gameObject.GetComponent<CameraOverheadController>().enabled = true;
     }
 }
