@@ -7,6 +7,7 @@ public class NationSO : ScriptableObject
 {
     public string nationName;
     public string owner;
+    public int maxOrders;
     public List<LandTile> defaultOwnedTiles;
     public List<LandTile> ownedTiles;
     public Sprite nationFlag;
