@@ -14,6 +14,10 @@ public class CameraOverheadController : MonoBehaviour
     private float sideBoarder = 30f;
     [SerializeField]
     private float topBottomBoarder = 30f;
+    [SerializeField]
+    private float sideMax = 30f;
+    [SerializeField]
+    private float topMax = 30f;
 
     [Tooltip("X = Change in elevation.\nY = Angle upwards")]
     public AnimationCurve cameraHorisonCurve = new AnimationCurve(new Keyframe(3f, 30f, -1f, -5f), new Keyframe(7f, 0f, -0.1f, 0f), new Keyframe(20f, 0f, 0f, 0f));
@@ -89,8 +93,8 @@ public class CameraOverheadController : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 pos = transform.position;
-        //pos.x = Mathf.Clamp(pos.x, 3f, 20f);// work on world boarders
-        //pos.z = Mathf.Clamp(pos.z, 3f, 20f);
+        pos.x = Mathf.Clamp(pos.x, -topMax, topMax);// work on world boarders
+        pos.z = Mathf.Clamp(pos.z, -sideMax, sideMax);
         pos.y = Mathf.Clamp(pos.y, 3f, 20f);
         transform.position = pos;
     }
