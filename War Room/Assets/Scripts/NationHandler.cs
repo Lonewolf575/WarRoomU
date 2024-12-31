@@ -42,14 +42,6 @@ public class NationHandler : Singleton<NationHandler>
         }
     }
 
-
-    byte[] convertTextureToBytes(Texture2D texture)
-    {
-        byte[] bytes = null;
-        bytes = texture.GetRawTextureData();
-        return bytes;
-    }
-
     //[ClientRpc]
     //public void updateTexturesClientRpc(GameObject flag, Color color, Texture flagTexture)
     //{

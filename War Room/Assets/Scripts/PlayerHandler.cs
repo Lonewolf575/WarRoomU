@@ -36,6 +36,10 @@ public class Singleton<T> : NetworkBehaviour
 
 public class PlayerHandler : Singleton<PlayerHandler>
 {
+    [SerializeField]
+    NationSelectionManager nationSelection;
+
+
     private NetworkVariable<int> playersInGame = new NetworkVariable<int>();
     public int PlayersInGame
     {
@@ -65,4 +69,12 @@ public class PlayerHandler : Singleton<PlayerHandler>
             }
         };
     }
+
+    [Rpc(SendTo.Everyone)]
+    public void ChooseNationRpc(string nationName, bool selected)
+    {
+        nationSelection.nationSelected(nationName, selected);
+    }
 }
+
+
