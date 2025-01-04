@@ -33,10 +33,16 @@ public class NationSelectionManager : MonoBehaviour
     {
         selectNationButton.GetComponent<Button>().onClick.AddListener(() =>
         {
-            
             playerHandler.ChooseNationRpc(selectedNation, false);
-            selectedNation = activeNation;
-            playerHandler.ChooseNationRpc(selectedNation, true);
+            if (selectedNation != activeNation)
+            {
+                selectedNation = activeNation;
+                playerHandler.ChooseNationRpc(selectedNation, true);
+            }
+            else
+            {
+                selectedNation = "";
+            }
         });
         selectedNation = "";
         selectedNations = new Dictionary<string, GameObject>();
@@ -68,10 +74,21 @@ public class NationSelectionManager : MonoBehaviour
                 activeNation = nation.nationName;
                 if (selectedNations.ContainsKey(nation.nationName))
                 {
-                    selectNationButton.GetComponent<Button>().interactable = false;
+                    if (selectedNation == nation.nationName)
+                    {
+                        selectNationButton.GetComponent<Image>().color = Color.green;
+                        selectNationButton.GetComponent<Button>().interactable = true;
+                    }
+                    else
+                    {
+                        selectNationButton.GetComponent<Image>().color = Color.white;
+                        selectNationButton.GetComponent<Button>().interactable = false;
+                    }
+                    
                 }
                 else
                 {
+                    selectNationButton.GetComponent<Image>().color = Color.white;
                     selectNationButton.GetComponent<Button>().interactable = true;
                 }
                 updater.UpdateStats(nation);
@@ -87,7 +104,14 @@ public class NationSelectionManager : MonoBehaviour
             selectedNations.Add(nation, possibleNations[nation]);
             if (activeNation == nation)
             {
-                selectNationButton.GetComponent<Button>().interactable = false;
+                if (selectedNation == nation)
+                {
+                    selectNationButton.GetComponent<Image>().color = Color.green;
+                }
+                else
+                {
+                    selectNationButton.GetComponent<Button>().interactable = false;
+                }
             }
         }
         else
@@ -98,6 +122,7 @@ public class NationSelectionManager : MonoBehaviour
             }
             if (activeNation == nation)
             {
+                selectNationButton.GetComponent<Image>().color = Color.white;
                 selectNationButton.GetComponent<Button>().interactable = true;
             }
         }
