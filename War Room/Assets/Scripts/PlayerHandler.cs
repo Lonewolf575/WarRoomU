@@ -1,5 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Singleton<T> : NetworkBehaviour
     where T : Component
@@ -39,6 +41,7 @@ public class PlayerHandler : Singleton<PlayerHandler>
     [SerializeField]
     NationSelectionManager nationSelection;
 
+    private Dictionary<string,ulong> playerInfo = new Dictionary<string,ulong>();
 
     private NetworkVariable<int> playersInGame = new NetworkVariable<int>();
     public int PlayersInGame
@@ -75,6 +78,13 @@ public class PlayerHandler : Singleton<PlayerHandler>
     {
         nationSelection.nationSelected(nationName, selected);
     }
+
+    public void sendPlayerInfo(ulong clientID, string name)
+    {
+        playerInfo.Add(name, clientID);
+    }
+
+
 }
 
 

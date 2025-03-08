@@ -30,6 +30,9 @@ public class UIManager : NetworkBehaviour
 
     [SerializeField]
     private GameObject nationSelectionPage;
+    
+    [SerializeField]
+    private TMP_InputField textField;
 
     bool serverStarted;
 
@@ -115,4 +118,6 @@ public class UIManager : NetworkBehaviour
         nationSelectionPage.SetActive(false);
         playerInfo.instance.gameObject.GetComponent<CameraOverheadController>().enabled = true;
     }
+
+    //PlayerHandler.Instance.
 }
